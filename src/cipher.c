@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include "../cipher_lib/cipher_lib.h"
 
 int main (int argc, char *argv[]) {
 	int		in_file;
@@ -11,7 +12,6 @@ int main (int argc, char *argv[]) {
 	char	*key;
 	int		key_len;
 	int 	out_file;
-	int		i;
 	int		read_bytes;
 	char	*out_file_name;
 
@@ -64,12 +64,7 @@ int main (int argc, char *argv[]) {
 	read_bytes = read(in_file, buffer, key_len);
 	while (read_bytes > 0)
 	{
-		i = 0;
-		while (i < read_bytes)
-		{
-			buffer[i] += key[i];
-			i++;
-		}
+		vigenere_cipher(buffer, key, read_bytes);
 		write(out_file, buffer, read_bytes);
 		read_bytes = read(in_file, buffer, key_len);
 	}
